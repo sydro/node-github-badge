@@ -1,6 +1,8 @@
 const f = require("./functions");
 const express = require('express');
 const path = require('path');
+const conf = require('nconf');
+conf.argv().env().file({file: "./config.json"});
 
 var app = express();
 app.set('view engine', 'ejs')
@@ -14,8 +16,8 @@ app.get('/badge/:nickname', async function(req, res) {
   res.render('badge', { user: user });
 })
 
-app.get('/css/:file', function(req,res) {
+app.get('/static/:file', function(req,res) {
   res.sendFile(path.join(__dirname + '/static/' + req.params.file));
 })
 
-app.listen(8080);
+app.listen(conf.get("PORT"));

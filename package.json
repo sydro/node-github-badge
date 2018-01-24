@@ -1,15 +1,16 @@
 {
-  "name": "github-badge",
+  "name": "node-github-badge",
   "version": "0.0.1",
-  "description": "Github Badge server",
+  "description": "Node Github Badge server",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon bot.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "github",
-    "badge"
+    "badge",
+    "node"
   ],
   "author": "Angelo D'Autilia <angelo.dautilia@alcacoop.it>",
   "license": "GPL-3.0",
@@ -19,6 +20,7 @@
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "lodash": "^4.17.4",
+    "nconf": "^0.10.0",
     "nodemon": "^1.14.11"
   }
 }

@@ -2,13 +2,11 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const _ = require('lodash');
 const fs = require('fs');
-
-const GITHUB_URL = "https://www.github.com/";
-const ONE_DAY = 86400000;  // 1 day in milliseconds
-const CACHE_DIR = "./cache/";
+const conf = require('nconf');
+conf.argv().env().file({file: "./config.json"});
 
 async function getInfo(nickname) {
-  let url = GITHUB_URL + nickname;
+  let url = conf.get("GITHUB_URL") + nickname;
   let user = { login: nickname }
   await axios.get(url).then(async function(response) {
     const $ = cheerio.load(response.data);
@@ -20,7 +18,7 @@ async function getInfo(nickname) {
     user.following = $('.UnderlineNav-item').children()[3].children[0].data.trim();
     user.languages = _.uniq($('.repo-language-color').parent().text().replace(/[^A-Za-z ]/g, '').replace(/\s\s+/g, ' ').trim().split(" ")).slice(0,3).join(",");
 
-    user.last_project = await axios.get(GITHUB_URL + 'users/' + nickname + '/created_commits').then(function(response) {
+    user.last_project = await axios.get(conf.get("GITHUB_URL") + 'users/' + nickname + '/created_commits').then(function(response) {
       const $ = cheerio.load(response.data);
       last_commits = $('div')[0];
       return (typeof last_commits !== 'undefined') ? last_commits.children[1].attribs['href'].slice(1) : "";
@@ -31,13 +29,14 @@ async function getInfo(nickname) {
 }
 
 async function getBadge(nickname) {
-  let file_cache = CACHE_DIR + nickname + '.cache';
+  let cache_dir = conf.get("CACHE_DIR");
+  let file_cache = cache_dir + nickname + '.cache';
   let user;
-  try { fs.statSync(CACHE_DIR); } catch(err) { fs.mkdirSync(CACHE_DIR)};
+  try { fs.statSync(cache_dir); } catch(err) { fs.mkdirSync(cache_dir)};
 
   try {
     stats = fs.statSync(file_cache);
-    if ( (stats.mtime.getTime() + ONE_DAY) > new Date().getTime() ) {
+    if ( (stats.mtime.getTime() + conf.get("CACHE_INTERVAL")) > new Date().getTime() ) {
       user = JSON.parse(fs.readFileSync(file_cache, 'utf8'));
       // console.log("Valid cache file");
     } else {

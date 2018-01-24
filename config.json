@@ -1,0 +1,6 @@
+{
+  "PORT": 8080,
+  "GITHUB_URL": "https://www.github.com/",
+  "CACHE_INTERVAL": 86400000,
+  "CACHE_DIR": "./cache/"
+}
