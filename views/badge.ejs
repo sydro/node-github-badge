@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title><%= user.login %>'s GitHub Badge</title>
+        <link rel="stylesheet" href="/css/badge.css" media="screen">
+    </head>
+    <body>
+        <div class="clear">
+            <div class="clear" id="user-login">
+                <div id="user-avatar">
+                    <a href="https://github.com/<%= user.login %>" target="_blank"><img alt="<%= user.login %>" class="avatar" src="<%= user.avatar_url %>"></a>
+                </div>
+                <div id="user-overview">
+                    <h1><a href="https://github.com/<%= user.login %>" target="_blank" title="<%= user %>"><%= user.fullname %></a></h1>
+                    <p>
+                        <% if (user.last_project != "") { %>
+                            Worked on
+                            <a href="https://github.com/<%= user.last_project %>"
+                               target="_blank" title="<%= user.last_project %>"><%= user.last_project %></a>
+                            recently.
+                        <% } else { %>
+                            <span title="Based on the commits in the last {{ days }} days">No recent repo activity.</span>
+                        <% } %>
+                    </p>
+                </div>
+            </div>
+            <div id="user-content">
+                <div id="octocat">
+                    <div id="user-graph">
+                        <div id="sparkline">
+                            <img alt="Commit sparkline" title="Commit sparkline: Maximum XX commits" src="">
+                        </div>
+                    </div>
+                    <div id="user-info">
+                        <p><%= user.languages %><span title="<%= user.languages %>">&hellip;</span></p>
+                        <ul class="clear" id="list-user-info">
+                            <li>
+                                <p>
+                                    <strong><%= user.repos %></strong><span> repos</span>
+                                </p>
+                                <p>
+                                    <strong><%= user.stars %></strong><span> stars</span>
+                                </p>
+                            </li>
+                            <li class="last">
+                                <p>
+                                    <strong title="<%= user.followers %>"><%= user.followers %></strong>
+                                    <span> followers</span>
+                                </p>
+                                <p>
+                                    <strong title="<%= user.following %>"><%= user.following %></strong>
+                                    <span> following</span>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
