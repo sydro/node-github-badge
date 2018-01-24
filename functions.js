@@ -1,10 +1,13 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const _ = require('lodash');
+const fs = require('fs');
 
 const GITHUB_URL = "https://www.github.com/";
+const ONE_DAY = 86400000;  // 1 day in milliseconds
+const CACHE_DIR = "./cache/";
 
-async function getBadge(nickname) {
+async function getInfo(nickname) {
   let url = GITHUB_URL + nickname;
   let user = { login: nickname }
   await axios.get(url).then(async function(response) {
@@ -27,6 +30,28 @@ async function getBadge(nickname) {
   return user;
 }
 
+async function getBadge(nickname) {
+  let file_cache = CACHE_DIR + nickname + '.cache';
+  let user;
+  try {
+    stats = fs.statSync(file_cache);
+    if ( (stats.mtime.getTime() + ONE_DAY) > new Date().getTime() ) {
+      user = JSON.parse(fs.readFileSync(file_cache, 'utf8'));
+      // console.log("Valid cache file");
+    } else {
+      user = await getInfo(nickname);
+      fs.writeFileSync(file_cache, JSON.stringify(user));
+      // console.log("Expired cache file");
+    }
+  } catch(err) {
+    user = await getInfo(nickname);
+    fs.writeFileSync(file_cache, JSON.stringify(user));
+    //console.log("Cache file not exists");
+  }
+  return user;
+}
+
 module.exports = {
-  getBadge
+  getBadge,
+  getInfo
 };
