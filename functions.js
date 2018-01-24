@@ -33,6 +33,8 @@ async function getInfo(nickname) {
 async function getBadge(nickname) {
   let file_cache = CACHE_DIR + nickname + '.cache';
   let user;
+  try { fs.statSync(CACHE_DIR); } catch(err) { fs.mkdirSync(CACHE_DIR)};
+
   try {
     stats = fs.statSync(file_cache);
     if ( (stats.mtime.getTime() + ONE_DAY) > new Date().getTime() ) {
