@@ -1,6 +1,6 @@
 {
   "name": "node-github-badge",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Node Github Badge server",
   "main": "index.js",
   "scripts": {

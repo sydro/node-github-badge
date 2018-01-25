@@ -12,8 +12,13 @@ app.get('/', async function(req, res) {
 })
 
 app.get('/badge/:nickname', async function(req, res) {
-  user = await f.getBadge(req.params.nickname);
-  res.render('badge', { user: user });
+  let users_accepted = conf.get("USERS_ACCEPTED");
+  if ((typeof users_accepted !== "undefined") && (users_accepted.indexOf(req.params.nickname) == -1))  {
+    res.send("Nickname not allowed");
+  } else {
+    let user = await f.getBadge(req.params.nickname);
+    res.render('badge', { user: user });
+  }
 })
 
 app.get('/static/:file', function(req,res) {
