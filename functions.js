@@ -11,8 +11,7 @@ async function getInfo(nickname) {
   await axios.get(url).then(async function(response) {
     const $ = cheerio.load(response.data);
     user.fullname = $('.p-name').text();
-    user.avatar_url = $('.avatar')['1'].attribs.src;
-    console.log($('.avatar')['1'].attribs.src)
+    user.avatar_url = 'https://avatars0.githubusercontent.com/' + nickname;
     user.repos = $('.UnderlineNav-item').children()[0].children[0].data.trim();
     user.stars = $('.UnderlineNav-item').children()[1].children[0].data.trim();
     user.followers = $('.UnderlineNav-item').children()[2].children[0].data.trim();
