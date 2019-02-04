@@ -19,11 +19,11 @@ async function getInfo(nickname) {
     user.following = $('.UnderlineNav-item').children()[3].children[0].data.trim();
     user.languages = _.uniq($('.repo-language-color').parent().text().replace(/[^A-Za-z ]/g, '').replace(/\s\s+/g, ' ').trim().split(" ")).slice(0,3).join(",");
 
-    user.last_project = await axios.get(conf.get("GITHUB_URL") + 'users/' + nickname + '/created_commits').then(function(response) {
-      const $ = cheerio.load(response.data);
-      last_commits = $('div')[0];
-      return (typeof last_commits !== 'undefined') ? last_commits.children[1].attribs['href'].slice(1) : "";
-    })
+//    user.last_project = await axios.get(conf.get("GITHUB_URL") + 'users/' + nickname + '/created_commits').then(function(response) {
+//      const $ = cheerio.load(response.data);
+//      last_commits = $('div')[0];
+//      return (typeof last_commits !== 'undefined') ? last_commits.children[1].attribs['href'].slice(1) : "";
+//    })
 
   });
   return user;
