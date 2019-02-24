@@ -13,9 +13,9 @@ async function getInfo(nickname) {
     user.fullname = $('.p-name').text();
     user.avatar_url = 'https://avatars0.githubusercontent.com/' + nickname;
     user.repos = $('.UnderlineNav-item').children()[0].children[0].data.trim();
-    user.stars = $('.UnderlineNav-item').children()[1].children[0].data.trim();
-    user.followers = $('.UnderlineNav-item').children()[2].children[0].data.trim();
-    user.following = $('.UnderlineNav-item').children()[3].children[0].data.trim();
+    user.stars = $('.UnderlineNav-item').children()[2].children[0].data.trim();
+    user.followers = $('.UnderlineNav-item').children()[3].children[0].data.trim();
+    user.following = $('.UnderlineNav-item').children()[4].children[0].data.trim();
     user.languages = _.uniq($('.repo-language-color').parent().text().replace(/[^A-Za-z ]/g, '').replace(/\s\s+/g, ' ').trim().split(" ")).slice(0,3).join(",");
 
 //    user.last_project = await axios.get(conf.get("GITHUB_URL") + 'users/' + nickname + '/created_commits').then(function(response) {
